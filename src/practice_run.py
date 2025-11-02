@@ -1,5 +1,13 @@
 from openclt.open_cross_layer_transcoder import OpenCrossLayerTranscoder, ReplacementModel
+from sklearn.model_selection import train_test_split
 import torch
+
+def create_addition_datset(A: list[int], B: list[int]):
+    dataset = set()
+    for a in A:
+        for b in B:
+            dataset.add(f"{a} + {b} =")
+    return list(dataset)
 
 # Set device
 device = "cuda" if torch.cuda.is_available() else "cpu"
@@ -12,11 +20,21 @@ transcoder = OpenCrossLayerTranscoder(
 )
 
 # Train the transcoder on sample texts
-train_texts = [
-    "The capital of France is Paris, which is known for the Eiffel Tower.",
-    "New York City is the largest city in the United States.",
-    # Add more training texts...
-]
+# train_texts = [
+#     "The capital of France is Paris, which is known for the Eiffel Tower.",
+#     "New York City is the largest city in the United States.",
+#     # Add more training texts...
+# ]
+
+train_texts, test_texts = train_test_split(
+    create_addition_datset(
+        list(range(1, 25)), 
+        list(range(1, 25))
+    ),
+    test_size=0.2,
+    random_state=42
+)
+
 
 metrics = transcoder.train_transcoder(
     texts=train_texts,
@@ -26,7 +44,8 @@ metrics = transcoder.train_transcoder(
 )
 
 # Visualize feature activations for a test text
-test_text = "The president of the United States lives in the White House."
+test_text = test_texts[0]
+print(f"Test text: {test_text}")
 transcoder.visualize_feature_activations(
     text=test_text,
     top_n=5,
@@ -48,7 +67,7 @@ replacement_model = ReplacementModel(
 
 # Generate text with the replacement model
 generated_text = replacement_model.generate(
-    text="Artificial intelligence",
+    text=test_text,
     max_length=50
 )
 print(generated_text)
