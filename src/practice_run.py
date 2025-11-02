@@ -1,5 +1,6 @@
 from openclt.open_cross_layer_transcoder import OpenCrossLayerTranscoder, ReplacementModel
 from sklearn.model_selection import train_test_split
+from torchinfo import summary
 import torch
 
 def create_addition_datset(A: list[int], B: list[int]):
@@ -18,6 +19,9 @@ transcoder = OpenCrossLayerTranscoder(
     num_features=768,   # Number of interpretable features # originally 100
     device=device
 )
+
+base_model = transcoder.base_model
+# Print base model layer summary
 
 # Train the transcoder on sample texts
 # train_texts = [
@@ -74,3 +78,4 @@ print(generated_text)
 
 # Save the trained transcoder
 transcoder.save_model('cross_layer_transcoder_gpt2.pt')
+summary(base_model, input_size=(1, 10), dtypes=[torch.long])
