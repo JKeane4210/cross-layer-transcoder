@@ -76,6 +76,19 @@ generated_text = replacement_model.generate(
 )
 print(generated_text)
 
+generated_tokens_base_model = replacement_model.base_model.generate(
+    input_ids=transcoder.tokenizer.encode(test_text, return_tensors='pt').to(device),
+    max_length=50,
+    do_sample=True,
+    top_p=0.9,
+    temperature=0.7,
+    attention_mask=None,
+    pad_token_id=transcoder.tokenizer.eos_token_id
+)
+generated_text_base_model = transcoder.tokenizer.decode(generated_tokens_base_model[0], skip_special_tokens=True)
+print(generated_text_base_model)
+
 # Save the trained transcoder
 transcoder.save_model('cross_layer_transcoder_gpt2.pt')
 summary(base_model, input_size=(1, 10), dtypes=[torch.long])
+summary(transcoder, input_size=(1, 10), dtypes=[torch.long])
