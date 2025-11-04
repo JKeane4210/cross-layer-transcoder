@@ -5,12 +5,11 @@
 #SBATCH --output="%j.out"
 
 # Hardware specs
-#SBATCH --partition=teaching
+#SBATCH --partition=dgx
 #SBATCH --nodes=1
-#SBATCH --gpus=2
-#SBATCH --cpus-per-gpu=18
-# maybe I need more memory?
-# SBATCH --mem=64G
+#SBATCH --gpus=1
+#SBATCH --cpus-per-gpu=1
+#SBATCH --mem-per-cpu=8024
 
 # Run time
 ## time format: <days>-<hours>:<minutes>
