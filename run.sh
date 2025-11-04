@@ -1,23 +1,24 @@
 #!/bin/bash
 
+# Job metadata
+#SBATCH --job-name='cross-layer-transcoder'
+#SBATCH --output="%j.out"
 
-# Job details
-TIME=04:00:00  # HH:MM:SS (default: 04:00, max: 240:00)
-NUM_GPUS=2  # GPUs per node
-NUM_CPUS=1  # Number of cores (default: 1)
-CPU_RAM=8024  # RAM for each core (default: 1024)
-OUTFILE=test.out  # default: lsf.oJOBID
-script=test.sh
+# Hardware specs
+#SBATCH --partition=teaching
+#SBATCH --nodes=1
+#SBATCH --gpus=2
+#SBATCH --cpus-per-gpu=18
+# maybe I need more memory?
+# SBATCH --mem=64G
 
+# Run time
+## time format: <days>-<hours>:<minutes>
+#SBATCH --time=1-0:0
 
-# Load modules
-# module load python_gpu/3.6.1
+# Email notification (uncomment and set email address to enable)
+#SBATCH --mail-type=END
+#SBATCH --mail-user="keanej@msoe.edu"
 
-
-# Submit job
-sbatch –time=$TIME \
-     -n $NUM_CPUS \
-     --mem-per-cpu=$CPU_RAM -G $NUM_GPUS  \
-     –gpus=nvidia_a100-pcie-40gb \
-     -o $OUTFILE \
-     ./$script
+# command
+uv run ./examples/practice_run.py
