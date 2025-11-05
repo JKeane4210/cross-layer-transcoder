@@ -1,6 +1,6 @@
 # Cross-Layer Transcoders
 
-This week, I wanted to explore some the concept of a cross-layer transcoder (CLT), which was described in one of the Anthropic interpretability research blog posts here: [Circuit Tracing: Revealing Computational Graphs in Language Models](https://transformer-circuits.pub/2025/attribution-graphs/methods.html). The big goal of this network approach is to try and create a series of sparse feature sets for each layer that can recreate the original layer's outputs.
+This week, I wanted to explore some the concept of a cross-layer transcoder (CLT), which was described in one of the Anthropic interpretability research blog posts here: [Circuit Tracing: Revealing Computational Graphs in Language Models](https://transformer-circuits.pub/2025/attribution-graphs/methods.html). The big goal of this network approach is to try and create a series of sparse feature sets for each layer that can recreate the original layer's outputs. This repo is forked from [etredal/openCLT](https://github.com/etredal/openCLT) and the CLT implementation is not my own minus just getting it working.
 
 This network has some key pieces that I would like to point out:
 
